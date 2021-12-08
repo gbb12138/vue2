@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <my-button></my-button>
+    <my-button></my-button>
+    <my-button></my-button>
+</div>
+<script src="../dist/vue.js"></script>
+<!--<script src="../node_modules/vue/dist/vue.js"></script>-->
+<script>
+    // 组件包括全局组件（不用在组件内部注册可以直接使用）局部组件（定义后只能在组件内部使用）
+    // Vue.options.components, 当实例化某个组件时，可以把全局的和自己的合并起来
+    // 全局组件和局部组件重名，使用组件内部的(XXX.__protp__)
+    // 组件的优点：组件级更新（属性，样式，插槽）
+    Vue.component('my-button', {   // 全局的会被定义在xxx.__proto__
+        template: '<button>全局按钮{{b}}</button>',
+        data () {
+            return {
+                b: 1
+            }
+        }
+    })
+    // 组件的父子关系，new Vue(父亲)  my-button(儿子)  类的继承
+    // Vue.component注册了一个全局组件？ 调用了Vue.extend，返回一个子类的构造函数
+     let vm = new Vue({
+        el: '#app',
+        data: {
+            name: 'zf'
+        },
+         beforeCreate() {
+            console.log('父beforeCreate')
+         },
+         mounted() {
+             console.log('父mounted')
+         },
+         components: {
+            'my-button': {  // 局部的定义在自己身上
+                template: '<button>内部按钮{{a}}</button>',
+                data () {
+                    return {
+                        a: 2
+                    }
+                },
+                beforeCreate() {
+                    console.log('子beforeCreate')
+                },
+                mounted() {
+                    console.log('子mounted')
+                },
+            }
+        }
+    });
+    setTimeout(() => {
+        vm.name = 'gb'
+    }, 1000)
+
+
+    //Vue.component在组件中声明一个components属性，内部会把声明的对象用Vue.extend包裹
+    // 内部在new Vue的时候会将全局选项和自己的选项合并，合并的时候需要产生父子关系，等到渲染时可以通过vm.$options.components拿到刚才声明的属性
+    // 组件渲染的过程： 1 产生虚拟节点：组件的虚拟节点上的属性中包含着初始化的钩子函数 init 同时组件的虚拟节点上有一个componentOptions属性，里面有Ctor
+    // 2。渲染真实节点： 就是new Ctor创造子类的实例，去走vue的初始化过程，初始化完成后会返回一个实例，实例上包含了真实的DOM元素，将元素插入到页面上
+    // 3 完成渲染
+</script>
+</body>
+</html>

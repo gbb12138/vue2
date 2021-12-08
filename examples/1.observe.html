@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app" a="1" b="2" style="color:red">哈哈{{age}}<span>{{name}}</span></div>
+<script src="../dist/vue.js"></script>
+<!--<script src="../node_modules/vue/dist/vue.js"></script>-->
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data(){ // 为什么组件data是函数，实例可以写成对象？
+            return {
+                name: 'gbb',
+                age: 20,
+                address: {
+                    n: 504
+                },
+                arr: [{a: 1}]
+            }
+        },
+        // template: '<div id="app">啦啦{{name}}</div>'
+    })
+    // 不能给根对象添加一个属性
+    // 默认不是响应式的, 给对象增加一个不存在的属性可以采用Vue.set或者给对象重新赋值一个新的对象
+    // vm._data.address.a = 100 // 不能实现响应式赋值a
+    // Vue.set(vm._data.address, 'a', 100)
+    vm.address = {...vm._data.address, a: 100}
+
+    // Vue.set(vm._data, 'a', 100)）
+    // 数组不使用definedProperty, 原因对数组每一项增加get，set性能差，（vue3如果用的是optionApi会降维使用defineProperty,数组也使用数组不使用definedProperty）
+    // 将常用方法重写，修改数组本身的方法，push， pop，shift，unshift，reverse，splice
+    // 更改数组索引，数组长度是无法被监测到的
+    // 如果数组中是对象，对象是可以劫持到的
+    vm.arr.push(1)
+    vm.arr.push({
+        a: 2
+    })
+    // console.log(vm.arr)
+</script>
+</body>
+</html>

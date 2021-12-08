@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app"></div>
+<script src="../dist/vue.js"></script>
+<!--<script src="../node_modules/vue/dist/vue.js"></script>-->
+<script>
+    //缺陷：容易出现命名冲突，数据来源不明确，方法重复，调用不明确
+    Vue.mixin({
+        beforeCreate() {
+            console.log('say...1')
+        },
+        a: 1
+    })
+    Vue.mixin({
+        beforeCreate() {
+            console.log('say...2')
+        },
+        b: 2
+    })
+    console.log(Vue.options)
+    let vm1 = new Vue({
+        beforeCreate() {
+            console.log('beforeCreate1')
+        }
+    })
+    let vm2 = new Vue({
+        beforeCreate() {
+            console.log('beforeCreate2')
+        }
+    })
+    // 面试： vue中mixin的优缺点？生命周期怎么合并的？
+    // 初始化时赋值给实例
+</script>
+</body>
+</html>

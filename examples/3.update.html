@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">{{name}}{{age}} {{teacher}}</div>
+<script src="../dist/vue.js"></script>
+<script>
+    //模版编译中很重要的一点是做了对象的JSON.stringfy， 意味着会访问对象的所有属性
+    // JSON.stringfy的时候会去取对象所有的值
+
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            name: 'zf',
+            // arr: [[1]]
+            age: 12,
+            teacher: '111'
+        }
+    })
+    setTimeout(() => {
+        // vm.arr[0].push('100')
+        vm.name = 'aaa'
+        vm.age = 13
+        vm.teacher = 'bbb'
+    }, 1000)
+    //1 默认内部会现将data中的数据进行劫持，采用的是defineProperty
+    //2 如果用户提供了el属性，会去查找options中又没有template和render，如果用户没有传入render，会根据el对应的html作为模版
+    //3 拿到html后，将html解析成ast树，将ast树拼成render函数，执行渲染逻辑，当调用render时执行data数据的取值操作
+    //4 在创建真实DOM之前，会生成一个渲染watcher， 给每一个属性增加了一个dep，同时将watcher放到全局上，再去调用渲染方法，每个属性对应的dep会收集这个watcher
+    //5 如果一个属性多次在模版中取值，我们需要过滤这个属性对应Dep中保存的watcher，同时希望Dep和watcher是有关系的，
+    // 一个Dep可能跟过个Watcher关联（不同组件中使用了同一个属性），一个Watcher可能跟多个属性关联（一个组件中有多个属性）
+
+</script>
+</body>
+</html>

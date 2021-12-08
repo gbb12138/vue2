@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script src="../dist/vue.js"></script>
+<script>
+    let vm = new Vue({
+        data: {
+            name: 'zf'
+        },
+        watch: {
+            name (newVal, oldVal) {  // 直接监控一个属性对应一个函数， 也可以是一个数组，内部是函数
+                console.log(newVal, oldVal, 123)
+            }
+        }
+    })
+    setTimeout(() => {
+        vm.name = '111'
+    }, 1000)
+</script>
+</body>
+</html>
