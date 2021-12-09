@@ -1,4 +1,5 @@
-import Dep from "./dep";
+import Dep, {popTarget, pushTarget} from "./dep";
+import {watch} from "rollup";
 
 let id = 0;
 class Watcher{
@@ -17,9 +18,12 @@ class Watcher{
         }
         this.deps = []; // watcher对应存放的dep
         this.depsId = new Set(); // 用于去重watcher对应的deps的ID
-        this.value = this.get(); // this.value就是老的值
+        this.lazy = options.lazy; // lazy 是true，是计算属性watcher，不要立即调用get
+        this.dirty = this.lazy; // 计算属性，默认dirty是true
+        this.value = this.lazy ? undefined: this.get(); // this.value就是老的值
         this.callback = callback;
-        this.options = options
+        this.options = options;
+        this.vm = vm
     }
     addDep (dep) {
         let id = dep.id;
@@ -30,21 +34,38 @@ class Watcher{
         }
     }
     get () {
-        Dep.target = this; // 将watch暴露到全局变量上
-        let value = this.getter(); // 第一次渲染就默认调用了getter， vm._update(vm._render())
+        // Dep.target = this; // 将watch暴露到全局变量上
+        pushTarget(this);
+        let value = this.getter.call(this.vm); // 第一次渲染就默认调用了getter， vm._update(vm._render())
         // 当调用_render的时候，就会取值get
-        Dep.target = null; // 更新完DOM后，将watch清空
+        // Dep.target = null; // 更新完DOM后，将watch清空
+        popTarget();
         return value;
     }
     update () {
-        // this.get(); // 只要改变就更新，当连续更新几个属性时，性能不好
-        queueWatcher(this);
+        console.log('watcher更新')
+        if (this.lazy) { // 是计算属性watcher
+            this.dirty = true;  // 如果依赖的属性变化了，dirty置为true，下次取计算属性的值的时候，进入evaluate， 重新执行get取值
+        } else {
+            // this.get(); // 只要改变就更新，当连续更新几个属性时，性能不好
+            queueWatcher(this);
+        }
     }
     run () {
         let newVal = this.get();
         let oldVal = this.value;
         if (this.options.user) {
             this.callback(newVal, oldVal)
+        }
+    }
+    evaluate () {
+        this.value = this.get();
+        this.dirty = false;
+    }
+    depend () {
+        let l = this.deps.length;  // watcher依赖的属性对应的dep： name age
+        while (l--) { // [渲染watcher， 计算属性watcher]
+            this.deps[l].depend(); // 需要将所有属性都记住上一层的watcher Dep.target
         }
     }
 }

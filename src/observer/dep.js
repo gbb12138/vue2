@@ -19,4 +19,13 @@ class Dep{
     }
 }
 Dep.target = null; // 用于保存watch到全局中
+let stack = []; // 存放Dep.target的watcher
+export function pushTarget (watcher) {
+    stack.push(watcher);
+    Dep.target = watcher;
+}
+export function popTarget () {
+    stack.pop();
+    Dep.target = stack[stack.length - 1];
+}
 export default Dep; // 每个对象都加一个dep， 每个属性都增加一个dep
