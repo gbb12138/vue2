@@ -13,6 +13,7 @@ initMixin(Vue)
 lifeCycleMixin(Vue)
 export default Vue
 /*
+// 一下代码为了测试diff算法部分
 // 1. new Vue的时候发生了什么，默认进行初始化操作，_init, 后面组件的初始化也会调用_init
 // vue中是options， optionsApi， 不知道options中哪些选项会用到，所以会全部打包，无法实现tree-shaking
 
