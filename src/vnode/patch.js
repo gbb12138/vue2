@@ -231,7 +231,7 @@ export function createElm (vnode) {
         }
 
     } else {
-        // 文本, 将文本节点
+        // 文本, 文本节点直接放入文本
         vnode.el = document.createTextNode(text)
     }
     return vnode.el

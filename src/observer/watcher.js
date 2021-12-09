@@ -48,7 +48,7 @@ class Watcher{
             this.dirty = true;  // 如果依赖的属性变化了，dirty置为true，下次取计算属性的值的时候，进入evaluate， 重新执行get取值
         } else {
             // this.get(); // 只要改变就更新，当连续更新几个属性时，性能不好
-            queueWatcher(this);
+            queueWatcher(this);// 优化性能，将watcher放入到队列中，重复watcher只执行一次
         }
     }
     run () {
