@@ -14,6 +14,7 @@ export function initState(vm) { // 当前实例
     }
     if(options.watch) {
         // 初始化watch
+        // debugger
         initWatch(vm)
     }
 }
