@@ -27,6 +27,7 @@
     // vue2给每一个属性都配置一个dep属性，用于依赖收集
     setTimeout(() => {
         vm.age = 100 // 数据变化，触发set方法的时候，可以直接调用重新渲染的逻辑
+        // debugger;
         // vm._update(vm._render())
     }, 2000)
 </script>

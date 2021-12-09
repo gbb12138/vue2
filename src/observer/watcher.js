@@ -20,7 +20,7 @@ class Watcher{
         this.depsId = new Set(); // 用于去重watcher对应的deps的ID
         this.lazy = options.lazy; // lazy 是true，是计算属性watcher，不要立即调用get
         this.dirty = this.lazy; // 计算属性，默认dirty是true
-        this.value = this.lazy ? undefined: this.get(); // this.value就是老的值
+        this.value = this.lazy ? undefined: this.get(); // this.value就是老的值， 这里调用了get就会执行getter，触发取值，将依赖收集起来，也就是把watcher和依赖的Dep映射
         this.callback = callback;
         this.options = options;
         this.vm = vm
