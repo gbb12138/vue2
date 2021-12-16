@@ -26,7 +26,7 @@ export function initGlobalAPI (Vue) { // 静态方法， Vue.XXX
         Sub.prototype = Object.create(this.prototype)
         Sub.prototype.constructor = Sub;
         // 子类的全局属性 = Vue的全局属性与自己传入的属性合并
-        // todo: 合并的时候，构造一个父子关系
+        // todo: 合并的时候，构造一个父子关系 将 Vue全局的options和组件传入的options合并
         Sub.options = mergeOptions(this.options, componentDef)
         // new Sub({}).$mount()
         // console.log(Sub.options, 666)
