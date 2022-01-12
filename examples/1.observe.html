@@ -8,7 +8,12 @@
     <title>Document</title>
 </head>
 <body>
-<div id="app" a="1" b="2" style="color:red">哈哈{{age}}<span>{{name}}</span></div>
+<div id="app" a="1" b="2" style="color:red">
+    哈哈{{age}}
+    <span>
+        {{name}}
+    </span>
+</div>
 <script src="../dist/vue.js"></script>
 <!--<script src="../node_modules/vue/dist/vue.js"></script>-->
 <script>
@@ -26,6 +31,8 @@
         },
         // template: '<div id="app">啦啦{{name}}</div>'
     })
+    debugger;
+    vm.age = 100;
     // 不能给根对象添加一个属性
     // 默认不是响应式的, 给对象增加一个不存在的属性可以采用Vue.set或者给对象重新赋值一个新的对象
     // vm._data.address.a = 100 // 不能实现响应式赋值a

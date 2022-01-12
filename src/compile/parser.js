@@ -77,7 +77,7 @@ export function parseHTML (html) {
     function chars (text) {
         // console.log(text, '处理文本')
         let parent = stack[stack.length - 1] // 拿到栈顶元素
-        text = text.replace(/\s/g, "") // 文本遇到空格就删除
+        text = text.replace(/\s|\n/g, "") // 文本遇到空格就删除
         parent.children.push({ // 将文本内容，加入到当前父元素的子元素列表中
             text,
             type: 3
@@ -93,6 +93,7 @@ export function parseHTML (html) {
         if (textEnd === 0) { // 开头是<, 不是开始标签，就是结束标签
             const startTagMatch = parseStartTag()
             if (startTagMatch) {
+                // 生成开始标签的虚拟节点{ attrs: [], children: [],parent: {},tag: "span",type: 1 }
                 start(startTagMatch.tagName, startTagMatch.attrs)
                 continue
             }

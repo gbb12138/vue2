@@ -37,7 +37,6 @@ export function lifeCycleMixin (Vue) {
         } else {
             this.$el = patch(preVnode, vnode)   // 更新， 传入两个虚拟节点 diff算法
         }
-
     }
 }
 

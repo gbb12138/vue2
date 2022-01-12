@@ -8,10 +8,21 @@ import {createElm, patch} from "./vnode/patch";
 function Vue(options){  // 使用构造函数
     this._init(options)
 }
-initGlobalAPI(Vue)
-initMixin(Vue)
-lifeCycleMixin(Vue)
-export default Vue
+initGlobalAPI(Vue); // 挂载Vue上的方法
+initMixin(Vue);  // Vue prototype上的方法
+lifeCycleMixin(Vue); // Vue prototype上的方法
+export default Vue;
+
+
+
+
+
+
+
+
+
+
+
 /*
 // 一下代码为了测试diff算法部分
 // 1. new Vue的时候发生了什么，默认进行初始化操作，_init, 后面组件的初始化也会调用_init

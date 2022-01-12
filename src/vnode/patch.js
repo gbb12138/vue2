@@ -223,7 +223,7 @@ export function createElm (vnode) {
         } else {
             // 元素
             vnode.el = document.createElement(tag) //将创建的真实DOM和虚拟DOM映射，方便后续更新和复用
-            updateProperties(vnode)
+            updateProperties(vnode)  // 给vnode.el添加属性
             // 将子节点放入， 递归放入所有节点
             children && children.forEach(child => {
                 vnode.el.appendChild(createElm(child))
