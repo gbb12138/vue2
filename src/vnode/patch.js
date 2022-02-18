@@ -1,5 +1,11 @@
 import {isSameVnode} from "./index";
 
+/**
+ * 创建真实节点，并返回
+ * @param oldVnode
+ * @param vnode
+ * @returns {*|Text}
+ */
 export function patch(oldVnode, vnode) {
     // 处理组件渲染，组件渲染的时候child.$mount(); 没有el，oldVnode为空
     if (!oldVnode) {
@@ -19,6 +25,7 @@ export function patch(oldVnode, vnode) {
         parentElm.removeChild(oldVnode)
         return elm;
     } else {
+        // 更新虚拟节点
         patchVnode(oldVnode, vnode)
         return vnode.el;  //返回新的el元素
     }
@@ -229,7 +236,6 @@ export function createElm (vnode) {
                 vnode.el.appendChild(createElm(child))
             })
         }
-
     } else {
         // 文本, 文本节点直接放入文本
         vnode.el = document.createTextNode(text)

@@ -42,11 +42,12 @@ class Watcher{
         popTarget();
         return value;
     }
-    update () {
+    update () {  // 每次调用完update，清空watcher队列
         console.log('watcher更新')
         if (this.lazy) { // 是计算属性watcher
             this.dirty = true;  // 如果依赖的属性变化了，dirty置为true，下次取计算属性的值的时候，进入evaluate， 重新执行get取值
         } else {
+            // 批量更新，相同的watcher只收集一次，不同的watcher放入队列，待主程序走完后异步执行watcher队列执行run
             // this.get(); // 只要改变就更新，当连续更新几个属性时，性能不好
             queueWatcher(this);// 优化性能，将watcher放入到队列中，重复watcher只执行一次
         }

@@ -8,7 +8,7 @@ Vue.extend = function (options) {
     Sub.options = options
     return Sub
 }
-let Sub = Vue.extend({ // 相当于创建了一个组件
+let Sub = Vue.extend({ // Sub是创建组件的类
     // data: {
     //     name: 'zf'
     // }

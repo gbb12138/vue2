@@ -51,7 +51,6 @@ export function initMixin(Vue) {
         mountComponent(vm, el) // 组件挂载
     }
 
-
     Vue.prototype.$watch = function (key, handler) {
         const watcher = new Watcher(this, key, handler, {user: true}); // 监听key属性的变化，变化了，调用handler方法
     }

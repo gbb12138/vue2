@@ -43,6 +43,7 @@ function proxy (target, key, property) { // vm.XXXX  ---> vm._data.XXX
 function defineComputed (target, key, fn) {
     Object.defineProperty(target,key,{
         get () {
+            // lazy为true的watcher实例
             const watcher = target._computedWatchers[key];
             if(watcher && watcher.dirty) { // 默认计算属性watcher里的dirty是true
                 watcher.evaluate();  // 调用get，得到value， 同时将watcher的dirty置为false

@@ -9,8 +9,8 @@ function Vue(options){  // 使用构造函数
     this._init(options)
 }
 initGlobalAPI(Vue); // 挂载Vue上的方法
-initMixin(Vue);  // Vue prototype上的方法
-lifeCycleMixin(Vue); // Vue prototype上的方法
+initMixin(Vue);  // Vue prototype上的方法 _init $mount $watch
+lifeCycleMixin(Vue); // 1 调用render函数生成虚拟节点  2生成真实节点
 export default Vue;
 
 
